@@ -11,7 +11,9 @@ body {
 }
 
 .form-control label,
-.form-control input {
+.form-control input,
+.form-control text,
+.form-control textarea {
   width: 100%;
   display: block;
 }
