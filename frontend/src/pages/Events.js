@@ -14,6 +14,8 @@ class EventPage extends Component {
     selectedEvent: null
   };
 
+  isActive = true;
+
   static contextType = AuthContext
 
   constructor(props) {
@@ -111,7 +113,41 @@ class EventPage extends Component {
   }
 
   bookEventHandler = () => {
+    if(!this.context.token) {
+      this.setState({selectedEvent: null})
+      return;
+    }
+    const requestBody = {
+      query: `
+        mutation {
+          bookEvent(eventId: "${this.state.selectedEvent._id}") {
+            _id,
+            createdAt,
+            updatedAt
+          }
+        }
+      `
+    }
 
+    fetch('http://localhost:8000/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.context.token}`
+      }
+    })
+    .then(res => {
+      if(res.status !== 200 && res.status !== 201) {
+        throw new Error('Failed');
+      }
+      return res.json();
+    }).then(resData => {
+      console.log(resData)
+      this.setState({selectedEvent: null})
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   fetchEvents = () => {
@@ -149,13 +185,18 @@ class EventPage extends Component {
     }).then(resData => {
       console.log(resData)
       const events = resData.data.events;
-      this.setState({events: events, isLoading: false})
+      if(this.isActive){
+        this.setState({events: events, isLoading: false})
+      }
     }).catch(err => {
       console.log(err);
       this.setState({isLoading: false})
     })
   }
 
+  componentWillUnmount() {
+    this.isActive = false;
+  }
 
   render() {
     return (
@@ -196,7 +237,7 @@ class EventPage extends Component {
             canConfirm 
             onCancel={this.modalCancelHandler} 
             onConfirm={this.bookEventHandler}
-            confirmText="Book"
+            confirmText={this.context.token ? "Book" : "Confirm" }
           >
             <h1>{this.state.selectedEvent.title}</h1>
             <h2>${this.state.selectedEvent.price} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}</h2>
