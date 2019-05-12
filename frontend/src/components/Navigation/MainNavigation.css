@@ -1,0 +1,42 @@
+.main-navigation {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3.5rem;
+  background-color: aqua;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.main-navigation_logo h1{
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.main-navigation_item {
+  margin-left: 1.5rem;
+}
+
+.main-navigation_item ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-navigation_item li {
+  margin: 0 1rem;
+} 
+
+.main-navigation_item a {
+  text-decoration: none;
+  color: black
+}
+
+.main-navigation_item a:hover,
+.main-navigation_item a:active ,
+.main-navigation_item a.active {
+  color: rgb(218, 106, 32);
+}
