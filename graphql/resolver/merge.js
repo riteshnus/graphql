@@ -28,7 +28,7 @@ const singleEvent = async eventId => {
   try {
     // const event = await Event.findById(eventId);
     const event = await eventLoader.load(eventId.toString());
-    return events;
+    return event;
   } catch(err ) {
       console.log(err);
       throw err
@@ -37,11 +37,12 @@ const singleEvent = async eventId => {
 
 const user = async userId => {
   try{
-  const users = await userLoader.load(userId.toString())
+    // const user = await User.findById(userId);
+    const user = await userLoader.load(userId.toString())
       return { 
-        ...users._doc, 
-        _id: users.id, 
-        createdEvents: eventLoader.load.bind(this, users._doc.createdEvents) 
+        ...user._doc, 
+        _id: user.id, 
+        createdEvents: events.bind(this, user._doc.createdEvents) 
       }
   } catch(err) {
     console.log(err);

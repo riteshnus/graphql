@@ -3,7 +3,7 @@ const Event = require('../../models/events');
 const { transformEvent, transformBooking} = require('./merge');
 
 module.exports = {
-  bookings: async (_,req) => {
+  bookings: async (args,req) => {
     if(!req.isAuth) {
       throw new Error('Not authorized')
     }

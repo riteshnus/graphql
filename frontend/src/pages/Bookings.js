@@ -12,7 +12,7 @@ class BookingPage extends Component {
   static contextType = AuthContext;
 
   componentDidMount() {
-    this.fetchBooking()
+    this.fetchBooking();
   }
 
   fetchBooking = () => {
