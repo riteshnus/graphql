@@ -99,10 +99,12 @@ class BookingPage extends Component {
       <React.Fragment>
         {this.state.isLoading ? 
           <Spinner/> : 
-          <BookingList 
-            bookings={this.state.bookings} 
-            onDelete={this.deleteBookingHandler}
-          />}
+          (
+            <BookingList 
+              bookings={this.state.bookings} 
+              onDelete={this.deleteBookingHandler}
+            />
+          )}
       </React.Fragment>
     )
   }
